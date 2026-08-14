@@ -1,0 +1,106 @@
+/* ==========================================================================
+   Design tokens
+   Palette sampled directly from reference/logo.png:
+     navy  #0E1A32   blue #2368E7   gold #CEAD3A   white #FFFFFF
+   Gold is a controlled accent only - never a surface colour.
+   ========================================================================== */
+
+:root {
+  --color-navy: #0e1a32;
+  --color-navy-700: #16264a;
+  --color-navy-600: #1e3160;
+  --color-blue: #2368e7;
+  --color-blue-600: #1a55c4;
+  --color-blue-300: #7ba5f2;
+  --color-blue-100: #dbe7fd;
+  --color-blue-050: #eef4ff;
+  --color-gold: #cead3a;
+  --color-gold-600: #a98a24;
+  --color-gold-100: #f8f0d6;
+
+  --color-background: #f4f6fb;
+  --color-surface: #ffffff;
+  --color-surface-2: #f8fafd;
+  --color-surface-sunken: #eef1f8;
+  --color-border: #dfe4ee;
+  --color-border-strong: #c3cbdb;
+  --color-text: #16203a;
+  --color-text-soft: #47536f;
+  --color-muted: #77839d;
+  --color-muted-2: #9aa4bb;
+
+  --color-success: #16875a;
+  --color-success-bg: #e3f5ec;
+  --color-warning: #b06f0a;
+  --color-warning-bg: #fdf1de;
+  --color-danger: #c33232;
+  --color-danger-bg: #fdeaea;
+  --color-info: var(--color-blue);
+  --color-info-bg: var(--color-blue-050);
+
+  /* --- subject palette (assigned per subject, stable) -------------------- */
+  --subject-1: #2368e7;
+  --subject-2: #7b3fd4;
+  --subject-3: #0f9e8e;
+  --subject-4: #d4682a;
+  --subject-5: #c0392b;
+  --subject-6: #2e7d32;
+  --subject-7: #a98a24;
+  --subject-8: #4a6fa5;
+  --subject-9: #b5347a;
+  --subject-10: #5c6bc0;
+
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-pill: 999px;
+
+  --shadow-xs: 0 1px 2px rgba(14, 26, 50, 0.06);
+  --shadow-sm: 0 2px 6px rgba(14, 26, 50, 0.07);
+  --shadow-md: 0 6px 18px rgba(14, 26, 50, 0.09);
+  --shadow-lg: 0 18px 44px rgba(14, 26, 50, 0.16);
+  --shadow-focus: 0 0 0 3px rgba(35, 104, 231, 0.28);
+
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-7: 32px;
+  --spacing-8: 40px;
+  --spacing-9: 56px;
+
+  --font-fa: "Vazirmatn", "IRANSans", "Sahel", "Shabnam", "Segoe UI",
+    "Tahoma", "Iranian Sans", "Noto Naskh Arabic", sans-serif;
+  --font-num: "Segoe UI", "Tahoma", var(--font-fa);
+  --text-xs: 11px;
+  --text-sm: 12.5px;
+  --text-base: 14px;
+  --text-md: 15.5px;
+  --text-lg: 18px;
+  --text-xl: 22px;
+  --text-2xl: 28px;
+  --text-3xl: 36px;
+  --leading-tight: 1.35;
+  --leading-normal: 1.7;
+
+  --sidebar-w: 244px;
+  --topbar-h: 62px;
+  --content-max: 1320px;
+  --transition: 140ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* The sketch asks for a page border in the logo's colour theme
+   ("دور تا دور صفحه حاشیه با تم رنگ logo باشه"). Rendered as a brand
+   hairline frame on the shell and on printed reports. */
+:root {
+  --brand-frame: linear-gradient(
+    90deg,
+    var(--color-navy) 0%,
+    var(--color-blue) 45%,
+    var(--color-gold) 100%
+  );
+}
