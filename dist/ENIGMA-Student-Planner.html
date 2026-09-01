@@ -5,6 +5,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
     <meta name="color-scheme" content="light" />
+    <meta name="author" content="Amirhossein Bazdar" />
     <meta
       name="description"
       content="ENIGMA — برنامه‌ی مطالعه و گزارش پیشرفت دانش‌آموز. کاملاً آفلاین، در یک فایل."
@@ -564,10 +565,6 @@ hr {
   gap: var(--spacing-4);
 }
 
-.grid--kpi {
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-}
-
 .grid--2 {
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
 }
@@ -687,20 +684,12 @@ hr {
     color: var(--color-blue);
     font-weight: 700;
   }
-
-  .grid--kpi {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  }
 }
 
 @media (max-width: 520px) {
   .content {
     padding: var(--spacing-3);
     padding-bottom: 84px;
-  }
-
-  .grid--kpi {
-    grid-template-columns: repeat(2, 1fr);
   }
 }
 
@@ -1753,31 +1742,6 @@ hr {
   margin-top: var(--spacing-3);
   padding-top: var(--spacing-3);
   border-top: 1px dashed var(--color-border);
-}
-
-.stat-pair {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.stat-pair__label {
-  font-size: var(--text-xs);
-  color: var(--color-muted);
-}
-
-.stat-pair__value {
-  font-size: var(--text-base);
-  font-weight: 700;
-  color: var(--color-navy);
-  font-family: var(--font-num);
-  direction: ltr;
-  text-align: start;
-}
-
-.stat-pair__value--soft {
-  color: var(--color-text-soft);
-  font-weight: 600;
 }
 
 .task-card__actions {
@@ -4173,10 +4137,6 @@ body {
   .day-pill {
     padding: 8px 1px;
   }
-
-  .grid--kpi {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 
 /* ==========================================================================
@@ -6240,30 +6200,6 @@ HDML.LOGO_SMALL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAAD
     });
   };
 
-  A.setTaskNote = function (taskId, note) {
-    store.mutate(function (st) {
-      var log = ensureLog(st, taskId);
-      log.note = note;
-      log.updatedAt = D.now();
-    });
-  };
-
-  /** Manual time entry without changing completion status. */
-  A.setActualMinutes = function (taskId, minutes) {
-    store.mutate(function (st) {
-      var log = ensureLog(st, taskId);
-      if (minutes === null) {
-        log.actualMinutes = null;
-        log.timeSource =
-          log.status === HDML.TASK_STATUS.COMPLETED ? "estimated" : "none";
-      } else {
-        log.actualMinutes = Math.max(0, Math.round(minutes));
-        log.timeSource = "actual";
-      }
-      log.updatedAt = D.now();
-    });
-  };
-
   function sumSessions(timer) {
     if (!timer || !timer.sessions) return 0;
     return timer.sessions.reduce(function (acc, s) {
@@ -6339,17 +6275,6 @@ HDML.LOGO_SMALL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAAD
     });
   };
 
-  A.clearTimer = function (taskId) {
-    store.mutate(function (st) {
-      delete st.student.timers[taskId];
-      var log = st.student.taskLogs[taskId];
-      if (log && log.timeSource === "timer") {
-        log.actualMinutes = null;
-        log.timeSource = "none";
-      }
-    });
-  };
-
   /** Elapsed minutes including the currently running segment. */
   A.timerMinutes = function (taskId) {
     var timer = state.student.timers[taskId];
@@ -6376,19 +6301,6 @@ HDML.LOGO_SMALL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAAD
     });
   };
 
-  A.setWeeklyReflection = function (weekId, patch) {
-    store.mutate(function (st) {
-      var cur = st.student.weeklyReflections[weekId] || {
-        wentWell: "",
-        difficult: "",
-        improve: ""
-      };
-      st.student.weeklyReflections[weekId] = Object.assign(cur, patch, {
-        updatedAt: D.now()
-      });
-    });
-  };
-
   A.setExamResult = function (examId, data) {
     store.mutate(function (st) {
       var cur = st.student.examResults[examId] || {
@@ -6405,12 +6317,6 @@ HDML.LOGO_SMALL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAAD
         examId: examId,
         updatedAt: D.now()
       });
-    });
-  };
-
-  A.clearExamResult = function (examId) {
-    store.mutate(function (st) {
-      delete st.student.examResults[examId];
     });
   };
 
@@ -6544,11 +6450,6 @@ HDML.LOGO_SMALL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAAD
     if (!(key in cache)) cache[key] = producer();
     return cache[key];
   }
-
-  S.invalidate = function () {
-    cache = {};
-    cacheVersion = -1;
-  };
 
   /**
    * Effective study minutes for one task, plus WHERE the number came from.
@@ -6684,10 +6585,6 @@ HDML.LOGO_SMALL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAAD
     agg.overallParts = parts.length;
     return agg;
   }
-
-  S.blankAgg = function () {
-    return finalize(blankAgg());
-  };
 
   /** Groups a list of taskStats by subject, ordered by planned time. */
   function bySubject(taskStatsList, state) {
@@ -7155,19 +7052,6 @@ HDML.LOGO_SMALL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAAD
     });
   };
 
-  S.overall = function (st) {
-    return memo("overall", function () {
-      var state = st || HDML.store.get();
-      var list = util.values(state.consultant.tasks).map(function (t) {
-        return S.taskStats(t, state);
-      });
-      var agg = finalize(list.reduce(accumulate, blankAgg()));
-      agg.weekCount = Object.keys(state.consultant.weeks).length;
-      agg.examCount = Object.keys(state.consultant.exams).length;
-      return agg;
-    });
-  };
-
   /** Is there enough real data to draw anything meaningful? */
   S.hasAnyActivity = function (st) {
     var state = st || HDML.store.get();
@@ -7254,12 +7138,6 @@ HDML.LOGO_SMALL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAAD
   }
 
   UI.el = el;
-
-  UI.frag = function (children) {
-    var f = doc.createDocumentFragment();
-    appendChildren(f, children);
-    return f;
-  };
 
   UI.clear = function (node) {
     while (node.firstChild) node.removeChild(node.firstChild);
@@ -7348,10 +7226,6 @@ HDML.LOGO_SMALL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAAD
     p.setAttribute("d", path);
     svg.appendChild(p);
     return svg;
-  };
-
-  UI.hasIcon = function (name) {
-    return !!ICON_PATHS[name];
   };
 
   UI.button = function (label, opts) {
@@ -7709,10 +7583,6 @@ HDML.LOGO_SMALL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAAD
     }
   };
 
-  UI.closeAllModals = function () {
-    while (modalStack.length) UI.closeModal();
-  };
-
   UI.isModalOpen = function () {
     return modalStack.length > 0;
   };
@@ -7780,18 +7650,6 @@ HDML.LOGO_SMALL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAAD
         if (node.parentNode) node.parentNode.removeChild(node);
       }, 200);
     }, ms || 2800);
-  };
-
-  UI.statPair = function (label, value, opts) {
-    var o = opts || {};
-    return el("div", { class: "stat-pair" }, [
-      el("div", { class: "stat-pair__label", text: label }),
-      el("div", {
-        class: "stat-pair__value" + (o.soft ? " stat-pair__value--soft" : ""),
-        text: value,
-        style: o.color ? { color: o.color } : null
-      })
-    ]);
   };
 
   UI.kv = function (key, value) {
@@ -8417,141 +8275,6 @@ HDML.LOGO_SMALL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAAD
     ]);
   };
 
-  C.subjectBars = function (rows, options) {
-    var opts = options || {};
-    var M = metrics(opts.viewport);
-    var data = (rows || [])
-      .filter(function (r) {
-        return r.plannedMinutes > 0 || r.actualMinutes > 0;
-      })
-      .slice(0, opts.limit || 12);
-
-    if (!data.length) return emptyChart("هنوز مطالعه‌ای ثبت نشده است");
-
-    var W = opts.width || M.W;
-    var rowH = M.narrow ? 40 : 34;
-    var labelW = M.narrow ? 72 : 108;
-    var padRight = M.narrow ? 46 : 58;
-    var H = data.length * rowH + 12;
-    var barW = W - labelW - padRight;
-
-    var maxVal = data.reduce(function (m, r) {
-      return Math.max(m, r.plannedMinutes, r.actualMinutes);
-    }, 0);
-    var top = niceCeil(maxVal * 1.05);
-
-    var svg = chartRoot(W, H, "مقایسه‌ی زمان برنامه و واقعی به تفکیک درس");
-
-    data.forEach(function (r, i) {
-      var y = i * rowH + 6;
-      svg.appendChild(
-        text(util.truncate(r.name, M.narrow ? 9 : 14), W - 4, y + 15, {
-          "text-anchor": "end",
-          fill: PALETTE.navy,
-          "font-size": M.fs,
-          direction: "rtl"
-        })
-      );
-
-      var plannedLen = (r.plannedMinutes / top) * barW;
-      var actualLen = (r.actualMinutes / top) * barW;
-      var right = W - labelW;
-
-      svg.appendChild(
-        withTitle(
-          svgEl("rect", {
-            x: right - plannedLen,
-            y: y + 3,
-            width: Math.max(1, plannedLen),
-            height: M.narrow ? 10 : 9,
-            rx: 4,
-            fill: PALETTE.planned
-          }),
-          r.name + " — برنامه: " + util.fmtDur(r.plannedMinutes)
-        )
-      );
-      svg.appendChild(
-        withTitle(
-          svgEl("rect", {
-            x: right - actualLen,
-            y: y + (M.narrow ? 17 : 15),
-            width: Math.max(1, actualLen),
-            height: M.narrow ? 10 : 9,
-            rx: 4,
-            fill: r.color || PALETTE.actual
-          }),
-          r.name + " — واقعی: " + util.fmtDur(r.actualMinutes)
-        )
-      );
-
-      svg.appendChild(
-        text(
-          util.fmtHM(r.actualMinutes) + " / " + util.fmtHM(r.plannedMinutes),
-          2,
-          y + (M.narrow ? 19 : 17),
-          { "text-anchor": "start", fill: PALETTE.textSoft, "font-size": M.fsSmall }
-        )
-      );
-    });
-
-    return UI.el("div", {}, [
-      UI.el("div", { class: "chart-box" }, svg),
-      legend([
-        { label: "واقعی", color: PALETTE.actual },
-        { label: "برنامه", color: PALETTE.planned }
-      ])
-    ]);
-  };
-
-  C.ring = function (rate, options) {
-    var opts = options || {};
-    var size = opts.size || 92;
-    var stroke = opts.stroke || 9;
-    var r = (size - stroke) / 2;
-    var circumference = 2 * Math.PI * r;
-    var value = rate === null ? 0 : util.clamp(rate, 0, 100);
-    var color = util.toneColor(opts.tone || util.rateTone(rate));
-
-    var svg = chartRoot(size, size, (opts.label || "پیشرفت") + " " + util.fmtPct(rate));
-    svg.setAttribute("width", size);
-    svg.setAttribute("height", size);
-    svg.style.width = size + "px";
-    svg.style.height = size + "px";
-
-    svg.appendChild(
-      svgEl("circle", {
-        cx: size / 2,
-        cy: size / 2,
-        r: r,
-        fill: "none",
-        stroke: "#eef1f8",
-        "stroke-width": stroke
-      })
-    );
-    svg.appendChild(
-      svgEl("circle", {
-        cx: size / 2,
-        cy: size / 2,
-        r: r,
-        fill: "none",
-        stroke: color,
-        "stroke-width": stroke,
-        "stroke-linecap": "round",
-        "stroke-dasharray": circumference,
-        "stroke-dashoffset": circumference * (1 - value / 100),
-        transform: "rotate(-90 " + size / 2 + " " + size / 2 + ")"
-      })
-    );
-    svg.appendChild(
-      text(rate === null ? "—" : util.fmtPct(rate), size / 2, size / 2 + 5, {
-        "font-size": size > 80 ? "16" : "13",
-        "font-weight": "700",
-        fill: PALETTE.navy
-      })
-    );
-    return svg;
-  };
-
   C.examTrend = function (points, options) {
     var opts = options || {};
     var M = metrics(opts.viewport);
@@ -8803,81 +8526,6 @@ HDML.LOGO_SMALL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAAD
     ]);
   };
 
-  C.completionDonut = function (agg, options) {
-    var opts = options || {};
-    var M = metrics(opts.viewport);
-    var total = agg.totalTasks;
-    if (!total) return emptyChart("هنوز کاری تعریف نشده است");
-
-    var size = opts.size || (M.narrow ? 170 : 190);
-    var cx = size / 2;
-    var cy = size / 2;
-    var r = size / 2 - 16;
-    var stroke = 20;
-
-    var slices = [
-      { label: "انجام‌شده", value: agg.completedTasks, color: "#16875a" },
-      { label: "در حال انجام", value: agg.inProgressTasks, color: "#2368e7" },
-      { label: "انجام‌نشد", value: agg.skippedTasks, color: "#b06f0a" },
-      { label: "مانده", value: agg.pendingTasks, color: "#dfe4ee" }
-    ].filter(function (s) {
-      return s.value > 0;
-    });
-
-    var svg = chartRoot(size, size, "توزیع وضعیت کارها");
-    svg.setAttribute("width", size);
-    svg.setAttribute("height", size);
-
-    var circumference = 2 * Math.PI * r;
-    var offset = 0;
-
-    slices.forEach(function (s) {
-      var len = (s.value / total) * circumference;
-      svg.appendChild(
-        withTitle(
-          svgEl("circle", {
-            cx: cx,
-            cy: cy,
-            r: r,
-            fill: "none",
-            stroke: s.color,
-            "stroke-width": stroke,
-            "stroke-dasharray": len + " " + (circumference - len),
-            "stroke-dashoffset": -offset,
-            transform: "rotate(-90 " + cx + " " + cy + ")"
-          }),
-          s.label + ": " + util.n(s.value) + " کار"
-        )
-      );
-      offset += len;
-    });
-
-    svg.appendChild(
-      text(util.n(agg.completedTasks) + "/" + util.n(total), cx, cy + 2, {
-        "font-size": "19",
-        "font-weight": "700",
-        fill: PALETTE.navy
-      })
-    );
-    svg.appendChild(
-      text("انجام‌شده", cx, cy + 19, {
-        "font-size": "11",
-        fill: PALETTE.textSoft,
-        direction: "rtl"
-      })
-    );
-
-    return UI.el("div", { style: { display: "flex", "justify-content": "center" } }, [
-      UI.el("div", {}, [
-        svg,
-        legend(
-          slices.map(function (s) {
-            return { label: s.label + " (" + util.n(s.value) + ")", color: s.color };
-          })
-        )
-      ])
-    ]);
-  };
 })(typeof window !== "undefined" ? window : globalThis);
 
     </script>
@@ -10624,195 +10272,6 @@ HDML.LOGO_SMALL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAAD
   };
 
   /**
-   * The three components are always shown separately - never collapsed into
-   * one meaningless number (the composite score is labelled and explained).
-   */
-  V.kpiRow = function (agg, options) {
-    var opts = options || {};
-    var items = [
-      UI.kpi({
-        label: "زمان مطالعه",
-        icon: "clock",
-        value: util.fmtDur(agg.actualMinutes),
-        foot: [
-          el("span", {
-            text: "از " + util.fmtDur(agg.plannedMinutes) + " برنامه"
-          }),
-          agg.hasEstimatedTime
-            ? UI.badge("شامل برآورد", "warning", {
-                title:
-                  util.fmtDur(agg.estimatedMinutes) +
-                  " از این زمان، برآورد از زمان برنامه است چون دانش‌آموز زمان واقعی را ثبت نکرده."
-              })
-            : null
-        ],
-        rate: agg.studyAchievementRate
-      }),
-      UI.kpi({
-        label: "فعالیت‌ها",
-        icon: "today",
-        value: util.n(agg.completedTasks) + " / " + util.n(agg.totalTasks),
-        foot: [
-          agg.skippedTasks
-            ? UI.badge(util.n(agg.skippedTasks) + " انجام‌نشد", "warning")
-            : null,
-          agg.pendingTasks
-            ? el("span", { text: util.n(agg.pendingTasks) + " باقی‌مانده" })
-            : null
-        ],
-        rate: agg.taskCompletionRate
-      }),
-      UI.kpi({
-        label: "تست",
-        icon: "target",
-        value:
-          agg.targetQuestions || agg.completedQuestions
-            ? util.n(agg.completedQuestions) + " / " + util.n(agg.targetQuestions)
-            : "—",
-        foot: [
-          agg.accuracy !== null
-            ? el("span", { text: "درصد صحیح: " + util.fmtPct(agg.accuracy) })
-            : el("span", { class: "text-muted", text: "بدون داده‌ی تست" })
-        ],
-        rate: agg.questionCompletionRate
-      })
-    ];
-
-    if (opts.showScore !== false) {
-      items.push(
-        UI.kpi({
-          label: "امتیاز کلی",
-          icon: "sparkle",
-          gold: true,
-          value: agg.overallScore === null ? "—" : util.fmtPct(agg.overallScore),
-          foot: [
-            el("span", {
-              class: "text-xs",
-              text:
-                agg.overallScore === null
-                  ? "بدون داده"
-                  : "میانگین " + util.n(agg.overallParts) + " شاخص بالا"
-            })
-          ],
-          rate: agg.overallScore
-        })
-      );
-    }
-
-    return el("div", { class: "grid grid--kpi" }, items);
-  };
-
-  /**
-   * "Subject | Planned | Actual | Difference | Achievement" - the study-time
-   * table from the reference sheet, filled automatically from task logs.
-   */
-  V.subjectTable = function (rows, options) {
-    var opts = options || {};
-    if (!rows || !rows.length) {
-      return UI.empty({
-        icon: "book",
-        title: "هنوز مطالعه‌ای ثبت نشده است",
-        text: "با تکمیل فعالیت‌ها، زمان هر درس به‌صورت خودکار در این جدول محاسبه می‌شود."
-      });
-    }
-
-    var totals = rows.reduce(
-      function (acc, r) {
-        acc.planned += r.plannedMinutes;
-        acc.actual += r.actualMinutes;
-        acc.questions += r.completedQuestions;
-        acc.target += r.targetQuestions;
-        return acc;
-      },
-      { planned: 0, actual: 0, questions: 0, target: 0 }
-    );
-
-    function deltaCell(delta) {
-      var cls = delta > 0 ? "delta--pos" : delta < 0 ? "delta--neg" : "delta--zero";
-      return el("td", { class: "num-cell" }, [
-        el("span", { class: "delta " + cls, text: util.fmtDelta(delta) })
-      ]);
-    }
-
-    return el("div", { class: "table-wrap" }, [
-      el("table", { class: "data-table" }, [
-        el("thead", {}, [
-          el("tr", {}, [
-            el("th", { text: "درس" }),
-            el("th", { class: "num-cell", text: "برنامه" }),
-            el("th", { class: "num-cell", text: "واقعی" }),
-            el("th", { class: "num-cell", text: "اختلاف" }),
-            el("th", { class: "num-cell", text: "تحقق" }),
-            opts.showQuestions !== false
-              ? el("th", { class: "num-cell", text: "تست" })
-              : null
-          ])
-        ]),
-        el(
-          "tbody",
-          {},
-          rows.map(function (r) {
-            return el("tr", {}, [
-              el("td", {}, [
-                el("span", { class: "cell-subject" }, [
-                  UI.subjectBadge(r.name, r.color)
-                ])
-              ]),
-              el("td", { class: "num-cell", text: util.fmtHM(r.plannedMinutes) }),
-              el("td", { class: "num-cell", text: util.fmtHM(r.actualMinutes) }),
-              deltaCell(r.deltaMinutes),
-              el("td", { class: "num-cell" }, [
-                el("div", { style: { "min-width": "84px" } }, [
-                  el("span", {
-                    text:
-                      r.studyAchievementRate === null
-                        ? "—"
-                        : util.fmtPct(r.studyAchievementRate)
-                  }),
-                  UI.meter(r.studyAchievementRate, { label: r.name })
-                ])
-              ]),
-              opts.showQuestions !== false
-                ? el("td", { class: "num-cell" }, [
-                    r.targetQuestions || r.completedQuestions
-                      ? el("span", {
-                          text:
-                            util.n(r.completedQuestions) +
-                            " / " +
-                            util.n(r.targetQuestions)
-                        })
-                      : el("span", { class: "text-muted", text: "—" })
-                  ])
-                : null
-            ]);
-          })
-        ),
-        el("tfoot", {}, [
-          el("tr", {}, [
-            el("td", { text: "مجموع" }),
-            el("td", { class: "num-cell", text: util.fmtHM(totals.planned) }),
-            el("td", { class: "num-cell", text: util.fmtHM(totals.actual) }),
-            deltaCell(totals.actual - totals.planned),
-            el("td", {
-              class: "num-cell",
-              text:
-                totals.planned > 0
-                  ? util.fmtPct(util.pct(totals.actual, totals.planned))
-                  : "—"
-            }),
-            opts.showQuestions !== false
-              ? el("td", {
-                  class: "num-cell",
-                  text: util.n(totals.questions) + " / " + util.n(totals.target)
-                })
-              : null
-          ])
-        ])
-      ])
-    ]);
-  };
-
-  /**
    * Shown whenever there is no week yet. For a student the answer is almost
    * always "import the file your consultant sent you".
    * @param {Object} [ctx] view context, used for the secondary action
@@ -10845,42 +10304,6 @@ HDML.LOGO_SMALL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAAD
             }
           })
         : null
-    ]);
-  };
-
-  V.skipSummary = function (reasons, skipped) {
-    if (!skipped || !skipped.length) return null;
-    return el("div", { class: "stack" }, [
-      el(
-        "div",
-        { class: "row" },
-        reasons.map(function (r) {
-          return UI.badge(r.label + " × " + util.n(r.count), "warning");
-        })
-      ),
-      el(
-        "div",
-        { class: "stack stack--sm" },
-        skipped.map(function (ts) {
-          return el("div", { class: "report-task-line" }, [
-            el("span", {
-              class: "report-task-line__mark report-task-line__mark--skip",
-              text: "×"
-            }),
-            el("span", { class: "report-task-line__body" }, [
-              el("strong", { text: Q.subjectName(ts.task.subjectId) + " — " }),
-              el("span", { text: ts.task.title }),
-              ts.log && ts.log.skipNote
-                ? el("span", { class: "text-muted", text: " — " + ts.log.skipNote })
-                : null
-            ]),
-            el("span", {
-              class: "report-task-line__num",
-              text: util.skipReasonLabel(ts.skipReason)
-            })
-          ]);
-        })
-      )
     ]);
   };
 
@@ -13344,88 +12767,6 @@ HDML.LOGO_SMALL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAAD
     UI.toast("گزارش HTML ذخیره شد.", "success");
   };
 
-  R.exportJson = function (kind, id) {
-    var state = HDML.store.get();
-    var payload;
-    if (kind === "daily") {
-      var day = Q.dayByDate(id);
-      if (!day) return;
-      var ds = S.dayStats(day.id);
-      payload = {
-        kind: "daily-report",
-        generatedAt: D.now(),
-        student: state.consultant.student,
-        date: ds.date,
-        dateJalali: D.isoToJalaliInput(ds.date),
-        summary: pickAggregate(ds),
-        bySubject: ds.bySubject.map(pickSubject),
-        tasks: ds.taskStats.map(pickTask),
-        note: ds.note
-      };
-    } else {
-      var ws = S.weekStats(id);
-      if (!ws) return;
-      payload = {
-        kind: "weekly-report",
-        generatedAt: D.now(),
-        student: state.consultant.student,
-        week: {
-          title: ws.week.title,
-          startDate: ws.week.startDate,
-          endDate: ws.week.endDate
-        },
-        summary: pickAggregate(ws),
-        days: ws.days.map(function (d) {
-          return Object.assign({ date: d.date, dayName: d.dayName }, pickAggregate(d));
-        }),
-        bySubject: ws.bySubject.map(pickSubject),
-        skipReasons: ws.skipReasons,
-        exams: ws.exams.map(function (e) {
-          return {
-            name: e.name,
-            date: e.date,
-            overallPercentage: e.overallPercentage,
-            rank: e.rank,
-            subjects: e.subjectRows.map(function (r) {
-              return { name: r.name, percentage: r.percentage };
-            })
-          };
-        }),
-        reflection: ws.reflection
-      };
-    }
-
-    HDML.transfer.downloadFile(
-      JSON.stringify(payload, null, 2),
-      sanitizeFilename(
-        kind === "daily" ? "daily-report-" + id : "weekly-report-" + ws.week.title
-      ) + ".json",
-      "application/json"
-    );
-    UI.toast("خروجی JSON ذخیره شد.", "success");
-  };
-
-  function pickAggregate(agg) {
-    return {
-      plannedMinutes: agg.plannedMinutes,
-      actualMinutes: agg.actualMinutes,
-      estimatedMinutes: agg.estimatedMinutes,
-      studyAchievementRate: agg.studyAchievementRate,
-      totalTasks: agg.totalTasks,
-      completedTasks: agg.completedTasks,
-      skippedTasks: agg.skippedTasks,
-      taskCompletionRate: agg.taskCompletionRate,
-      targetQuestions: agg.targetQuestions,
-      completedQuestions: agg.completedQuestions,
-      correct: agg.correct,
-      wrong: agg.wrong,
-      unanswered: agg.unanswered,
-      questionCompletionRate: agg.questionCompletionRate,
-      accuracy: agg.accuracy,
-      overallScore: agg.overallScore
-    };
-  }
-
   function pickSubject(r) {
     return {
       name: r.name,
@@ -15137,7 +14478,11 @@ HDML.LOGO_SMALL = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGAAAABgCAMAAAD
               UI.kv("نسخه", HDML.VERSION),
               UI.kv("نسخه‌ی ساختار داده", String(HDML.SCHEMA_VERSION)),
               UI.kv("امروز", D.format(D.today(), "full"))
-            ])
+            ]),
+            el("p", {
+              class: "text-sm",
+              text: "ایده، طراحی، توسعه و راهبری پروژه: امیرحسین بازدار"
+            })
           ])
         })
       ])

@@ -267,10 +267,6 @@
   gap: var(--spacing-4);
 }
 
-.grid--kpi {
-  grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
-}
-
 .grid--2 {
   grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
 }
@@ -390,19 +386,11 @@
     color: var(--color-blue);
     font-weight: 700;
   }
-
-  .grid--kpi {
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  }
 }
 
 @media (max-width: 520px) {
   .content {
     padding: var(--spacing-3);
     padding-bottom: 84px;
-  }
-
-  .grid--kpi {
-    grid-template-columns: repeat(2, 1fr);
   }
 }

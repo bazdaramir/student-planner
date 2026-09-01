@@ -308,7 +308,11 @@
               UI.kv("نسخه", HDML.VERSION),
               UI.kv("نسخه‌ی ساختار داده", String(HDML.SCHEMA_VERSION)),
               UI.kv("امروز", D.format(D.today(), "full"))
-            ])
+            ]),
+            el("p", {
+              class: "text-sm",
+              text: "ایده، طراحی، توسعه و راهبری پروژه: امیرحسین بازدار"
+            })
           ])
         })
       ])

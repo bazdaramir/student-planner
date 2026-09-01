@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light" />
+    <meta name="author" content="Amirhossein Bazdar" />
+    <meta
+      name="description"
+      content="ENIGMA — برنامه‌ی مطالعه و گزارش پیشرفت دانش‌آموز. کاملاً آفلاین، در یک فایل."
+    />
+    <link rel="icon" type="image/png" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAMAAABg3Am1AAAAwFBMVEWZnaccMFUKFCUKEygMZ+0AAGXNqjMnaeNkkeFbY3T9/f3d5fCbs90bSaA8RlkAB/sABBsbYODVu14fYuF3gZS+wsj//wAAUK7czp0VO7JIft/19ffexW7LqjO6nTpteXmyxen/qgDc5fX/qlXZwW7f0ZZOdddVVaq90PF/fwAA//8zmf8AAAANGTD8/PwjaegACiQTXOQZJDvn6u4LFi0BATYaYuXGyM1PWGoKFSwKFSvM2O3U1tpxeYhumuavx/LcIbPMAAAAQHRSTlP+/iRjCwL46/35E/j9/f4B9lP9jv7+AQT+BPya/2YNB2EDUQOrOA0DuwIBBQD8/f39/f390gb9/v2tkP3+/v39DkmN3AAAAyJJREFUeNqNlolyozAMhm1IlnA0IU3Sa4/ufdrGHAHCkb7/W618YExKu6uZZpqMPiRb0i8QedEeg2DmVzTru2yKIvZZ8PtfwFJ+HolDKeU1C8ifxeYVANwdR/7nKuCz8L5AphEaSh3iuieqgLO32y4AeQlwC+EoPzRQeom3myIjcCQnOviC0RiANBG2vSW3s4Cr3el6j6qq6gYg8RYjMUlJuuN9xxgL2zY0AAQh91PgCH+OzL7PWRg9JGWalsloV650mUSQd48r1q487WsRV9TVRdKA64rn83XOVml66S0B6tgR1HG5z9iDck+TVZlOgUKFkMBRXQ/OmZcq93MIqVkIALSRBNIFFlaxh1K5t0yYhQhAJSUBeT28h/z10wcbEUGcDCAvFLO2nLpL5JwoBOsQ5tAQoMZelLNLC1cmhCgGMk3RdZRm6DmQR6o9sLoopNuOrxniECc7XPhHui5DTiqlQmS0BiCLke93xvvQyouwchKAIwaGI5bJu0J+nPUKOdTw6wVwRLqredWqaqO85jyDKIca5iKCIdKAJ2t3REs1N7yquALgLJmYCcrltz0eTFZiOQuoMVLf+piOdiIbSKmZBegAcAuAdhKHbqg5NKYA6MfDZxaxnuJsMOwSB+nZAUAkWYnC5R3CHCqDOvltNPaWBKZwPvN5Bpgubx337LkZAJLKWMTlSGhizh+0MzDdqnISQ/fc7q6lvftKfsnWcOQJdTOhS+92FbK7N9LeB59GQLiuZ4gnmIcnTXy40c2nNDLLO6Wpnd2sZQkaFbHwGgKQL2biikKqL5JE5qNhFDwtImfG3kGAG0vIBLEHgksxxrVf1+zJyEa6ytk3cmMrnxS+PeuwrjKPqQUkpfeRPE6lcpCyHpzhQEIVLCDZkR+2VC61NglxzdFaMTawI8FmCphtUldw9wjhCbAzq248AxDirsTsIOjBPrZS2o5Ly1oojatFUywsnI0RYAEtXlzsxTgtGvC2zvxSJMul0XEDwN69n+7diwhSZRspPAD83H4nZLN4/V3DPTW6jDiEl5PF4r9eTtTOdszqfA046vt2wOZef/4C5VNxMPyjOhYAAAAASUVORK5CYII=" />
+    <title>ENIGMA — برنامه‌ی مطالعه‌ی من</title>
+
+    <link rel="stylesheet" href="css/tokens.css" />
+    <link rel="stylesheet" href="css/base.css" />
+    <link rel="stylesheet" href="css/layout.css" />
+    <link rel="stylesheet" href="css/components.css" />
+    <link rel="stylesheet" href="css/views.css" />
+    <link rel="stylesheet" href="css/report.css" />
+    <link rel="stylesheet" href="css/simple.css" />
+  </head>
+
+  <body>
+    <a class="skip-link" href="#main-content">پرش به محتوای اصلی</a>
+
+    <noscript>
+      <div class="boot-note">
+        <div class="boot-note__title">🔐 ENIGMA</div>
+        <p>برای استفاده از این برنامه، لازم است JavaScript در مرورگر شما فعال باشد.</p>
+        <p>اگر فایل را از داخل یک پیام‌رسان باز کرده‌اید، ابتدا آن را ذخیره کنید و سپس با
+          مرورگر (مثل Chrome) بازش کنید.</p>
+      </div>
+    </noscript>
+
+    <!-- The consultant plan + student activity embedded in this file.
+         Rewritten by "خروجی HTML دانش‌آموز". Keep the tag exactly as-is. -->
+    <script id="hdml-data" type="application/json">null</script>
+
+    <!-- The app mounts here. The markup below is real, styled content that is
+         visible the instant the HTML parses - before any script runs. The app
+         replaces it on boot. If scripting is broken, blocked or crashes, the
+         student still sees this instead of a blank white page. -->
+    <div id="app-root">
+      <div id="boot-fallback" class="welcome">
+        <img
+          class="welcome__logo"
+          alt="ENIGMA"
+          src="data:image/png;base64,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"
+        />
+        <div class="welcome__hi">سلام 👋</div>
+        <p class="welcome__line">هنوز برنامه‌ای نداری.</p>
+        <p class="welcome__line">برنامه هفتگی‌ات را از مشاورت دریافت کن.</p>
+        <div class="welcome__boot" id="boot-hint">در حال آماده‌سازی…</div>
+      </div>
+    </div>
+    <div id="modal-root" class="modal-root" hidden></div>
+    <div id="toast-root" class="toast-root" aria-live="polite"></div>
+
+    <!-- Error boundary. Deliberately the FIRST script in the document and
+         written in plain ES5 with no dependencies, so it still works if
+         everything after it fails to parse. Turns any fatal startup problem
+         into a readable message instead of a white screen. -->
+    <script>
+      (function () {
+        var handled = false;
+
+        function mounted() {
+          return !!document.querySelector("#app-root .app");
+        }
+
+        function showFailure(kind, detail) {
+          /* Once the real app is on screen, a later error must not wipe it. */
+          if (handled || mounted()) {
+            if (window.console) console.error(kind, detail);
+            return;
+          }
+          handled = true;
+          var root = document.getElementById("app-root");
+          if (!root) return;
+
+          var box = document.createElement("div");
+          box.className = "boot-error";
+
+          var title = document.createElement("div");
+          title.className = "boot-error__title";
+          title.appendChild(document.createTextNode("یک خطای غیرمنتظره رخ داد."));
+
+          var text = document.createElement("p");
+          text.className = "boot-error__text";
+          text.appendChild(
+            document.createTextNode(
+              "برنامه به‌درستی باز نشد. لطفاً متن زیر را برای پشتیبانی بفرستید."
+            )
+          );
+
+          var pre = document.createElement("pre");
+          pre.className = "boot-error__detail";
+          pre.setAttribute("dir", "ltr");
+          pre.appendChild(
+            document.createTextNode(
+              kind +
+                ": " +
+                detail +
+                "\nUA: " +
+                (navigator.userAgent || "?") +
+                "\nURL: " +
+                String(location.protocol)
+            )
+          );
+
+          var btn = document.createElement("button");
+          btn.type = "button";
+          btn.className = "boot-error__btn";
+          btn.appendChild(document.createTextNode("تلاش دوباره"));
+          btn.onclick = function () {
+            location.reload();
+          };
+
+          root.innerHTML = "";
+          box.appendChild(title);
+          box.appendChild(text);
+          box.appendChild(pre);
+          box.appendChild(btn);
+          root.appendChild(box);
+        }
+
+        window.__enigmaFail = showFailure;
+
+        window.addEventListener("error", function (e) {
+          showFailure(
+            "Error",
+            (e.message || "unknown") + " @" + (e.lineno || 0) + ":" + (e.colno || 0)
+          );
+        });
+
+        window.addEventListener("unhandledrejection", function (e) {
+          var r = e.reason;
+          showFailure("Promise", String((r && r.message) || r));
+        });
+
+        /* Watchdog: if the shell never mounted, say why instead of staying
+           blank. Generous delay so a slow phone is not accused unfairly. */
+        window.addEventListener("load", function () {
+          setTimeout(function () {
+            if (!mounted()) {
+              showFailure(
+                "Startup",
+                "برنامه بالا نیامد. HDML=" +
+                  (typeof window.HDML) +
+                  " views=" +
+                  (window.HDML && window.HDML.views ? "yes" : "no")
+              );
+            }
+          }, 4000);
+        });
+      })();
+    </script>
+
+    <!-- Capture a pristine copy of this document so the app can re-emit
+         itself with a different payload (the student HTML export). Must run
+         before app.js registers its own DOMContentLoaded handler. -->
+    <script>
+      (function () {
+        window.HDML = window.HDML || {};
+        function capture() {
+          try {
+            window.HDML.IS_MULTIFILE =
+              document.querySelectorAll('link[rel="stylesheet"]').length > 0;
+            window.HDML.PRISTINE_HTML =
+              "<!doctype html>\n" + document.documentElement.outerHTML;
+          } catch (err) {
+            /* Only the "save a new file" feature needs this; never fatal. */
+            if (window.console) console.error("pristine capture failed", err);
+          }
+        }
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", capture);
+        } else {
+          capture();
+        }
+      })();
+    </script>
+
+    <script src="assets/logo.js"></script>
+    <script src="js/core.js"></script>
+    <script src="js/date.js"></script>
+    <script src="js/store.js"></script>
+    <script src="js/stats.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/charts.js"></script>
+    <script src="js/transfer.js"></script>
+    <script src="js/week-import.js"></script>
+    <script src="js/views/task-ui.js"></script>
+    <script src="js/views/shared.js"></script>
+    <script src="js/views/dashboard.js"></script>
+    <script src="js/views/today.js"></script>
+    <script src="js/views/week.js"></script>
+    <script src="js/views/exams.js"></script>
+    <script src="js/views/progress.js"></script>
+    <script src="js/views/reports.js"></script>
+    <script src="js/views/consultant.js"></script>
+    <script src="js/views/settings.js"></script>
+    <script src="js/demo.js"></script>
+    <script src="js/app.js"></script>
+  </body>
+</html>

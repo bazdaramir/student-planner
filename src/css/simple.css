@@ -1258,10 +1258,6 @@ body {
   .day-pill {
     padding: 8px 1px;
   }
-
-  .grid--kpi {
-    grid-template-columns: 1fr 1fr;
-  }
 }
 
 /* ==========================================================================

@@ -1077,30 +1077,6 @@
     });
   };
 
-  A.setTaskNote = function (taskId, note) {
-    store.mutate(function (st) {
-      var log = ensureLog(st, taskId);
-      log.note = note;
-      log.updatedAt = D.now();
-    });
-  };
-
-  /** Manual time entry without changing completion status. */
-  A.setActualMinutes = function (taskId, minutes) {
-    store.mutate(function (st) {
-      var log = ensureLog(st, taskId);
-      if (minutes === null) {
-        log.actualMinutes = null;
-        log.timeSource =
-          log.status === HDML.TASK_STATUS.COMPLETED ? "estimated" : "none";
-      } else {
-        log.actualMinutes = Math.max(0, Math.round(minutes));
-        log.timeSource = "actual";
-      }
-      log.updatedAt = D.now();
-    });
-  };
-
   function sumSessions(timer) {
     if (!timer || !timer.sessions) return 0;
     return timer.sessions.reduce(function (acc, s) {
@@ -1176,17 +1152,6 @@
     });
   };
 
-  A.clearTimer = function (taskId) {
-    store.mutate(function (st) {
-      delete st.student.timers[taskId];
-      var log = st.student.taskLogs[taskId];
-      if (log && log.timeSource === "timer") {
-        log.actualMinutes = null;
-        log.timeSource = "none";
-      }
-    });
-  };
-
   /** Elapsed minutes including the currently running segment. */
   A.timerMinutes = function (taskId) {
     var timer = state.student.timers[taskId];
@@ -1213,19 +1178,6 @@
     });
   };
 
-  A.setWeeklyReflection = function (weekId, patch) {
-    store.mutate(function (st) {
-      var cur = st.student.weeklyReflections[weekId] || {
-        wentWell: "",
-        difficult: "",
-        improve: ""
-      };
-      st.student.weeklyReflections[weekId] = Object.assign(cur, patch, {
-        updatedAt: D.now()
-      });
-    });
-  };
-
   A.setExamResult = function (examId, data) {
     store.mutate(function (st) {
       var cur = st.student.examResults[examId] || {
@@ -1242,12 +1194,6 @@
         examId: examId,
         updatedAt: D.now()
       });
-    });
-  };
-
-  A.clearExamResult = function (examId) {
-    store.mutate(function (st) {
-      delete st.student.examResults[examId];
     });
   };
 

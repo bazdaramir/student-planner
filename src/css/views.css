@@ -146,31 +146,6 @@
   border-top: 1px dashed var(--color-border);
 }
 
-.stat-pair {
-  display: flex;
-  flex-direction: column;
-  min-width: 0;
-}
-
-.stat-pair__label {
-  font-size: var(--text-xs);
-  color: var(--color-muted);
-}
-
-.stat-pair__value {
-  font-size: var(--text-base);
-  font-weight: 700;
-  color: var(--color-navy);
-  font-family: var(--font-num);
-  direction: ltr;
-  text-align: start;
-}
-
-.stat-pair__value--soft {
-  color: var(--color-text-soft);
-  font-weight: 600;
-}
-
 .task-card__actions {
   display: flex;
   gap: var(--spacing-2);

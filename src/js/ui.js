@@ -63,12 +63,6 @@
 
   UI.el = el;
 
-  UI.frag = function (children) {
-    var f = doc.createDocumentFragment();
-    appendChildren(f, children);
-    return f;
-  };
-
   UI.clear = function (node) {
     while (node.firstChild) node.removeChild(node.firstChild);
     return node;
@@ -156,10 +150,6 @@
     p.setAttribute("d", path);
     svg.appendChild(p);
     return svg;
-  };
-
-  UI.hasIcon = function (name) {
-    return !!ICON_PATHS[name];
   };
 
   UI.button = function (label, opts) {
@@ -517,10 +507,6 @@
     }
   };
 
-  UI.closeAllModals = function () {
-    while (modalStack.length) UI.closeModal();
-  };
-
   UI.isModalOpen = function () {
     return modalStack.length > 0;
   };
@@ -588,18 +574,6 @@
         if (node.parentNode) node.parentNode.removeChild(node);
       }, 200);
     }, ms || 2800);
-  };
-
-  UI.statPair = function (label, value, opts) {
-    var o = opts || {};
-    return el("div", { class: "stat-pair" }, [
-      el("div", { class: "stat-pair__label", text: label }),
-      el("div", {
-        class: "stat-pair__value" + (o.soft ? " stat-pair__value--soft" : ""),
-        text: value,
-        style: o.color ? { color: o.color } : null
-      })
-    ]);
   };
 
   UI.kv = function (key, value) {

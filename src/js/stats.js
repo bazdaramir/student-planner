@@ -28,11 +28,6 @@
     return cache[key];
   }
 
-  S.invalidate = function () {
-    cache = {};
-    cacheVersion = -1;
-  };
-
   /**
    * Effective study minutes for one task, plus WHERE the number came from.
    * The distinction is never collapsed:
@@ -167,10 +162,6 @@
     agg.overallParts = parts.length;
     return agg;
   }
-
-  S.blankAgg = function () {
-    return finalize(blankAgg());
-  };
 
   /** Groups a list of taskStats by subject, ordered by planned time. */
   function bySubject(taskStatsList, state) {
@@ -635,19 +626,6 @@
       });
     return Object.keys(series).map(function (k) {
       return series[k];
-    });
-  };
-
-  S.overall = function (st) {
-    return memo("overall", function () {
-      var state = st || HDML.store.get();
-      var list = util.values(state.consultant.tasks).map(function (t) {
-        return S.taskStats(t, state);
-      });
-      var agg = finalize(list.reduce(accumulate, blankAgg()));
-      agg.weekCount = Object.keys(state.consultant.weeks).length;
-      agg.examCount = Object.keys(state.consultant.exams).length;
-      return agg;
     });
   };
 
