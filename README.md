@@ -4,7 +4,7 @@ A study planner and progress-reporting app for Iranian university-entrance-exam
 (*konkur*) students, delivered as **one self-contained HTML file that runs
 completely offline**.
 
-Concept, design, development and project direction by
+Concept, design and project direction by
 **Amirhossein Bazdar (امیرحسین بازدار)**.
 
 Persian-language user guide: [`docs/README.fa.md`](docs/README.fa.md)
